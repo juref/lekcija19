@@ -73,7 +73,7 @@ class MainHandler(BaseHandler):
 
             params = {"notice": "Uspešno ste vnesli sporočilo", "classConfirm": "confirm"}
 
-        return self.render_template("conformation.html", params=params)
+        return self.render_template("index.html", params=params)
 
 
 class GuestsListHandler(BaseHandler):
