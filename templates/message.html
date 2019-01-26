@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Filton{% endblock title %}
+
+{% block specifika %}
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+
+                    <div class="row mb-3 center">
+                        <p>Uredi svoje podatke ali sporočilo!
+                        </p>
+                
+                    </div>
+                        <form method="post">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Ime</span>
+                                </div>
+                                <input type="text" class="form-control" value="{{ single_guest.name }}" id="name" name="name" aria-label="ime" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Priimek</span>
+                                </div>
+                                <input type="text" class="form-control" value="{{ single_guest.surname }}" id="surname" name="surname" aria-label="surname" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">@</span>
+                                </div>
+                                <input type="text" class="form-control" value="{{ single_guest.email }}" id="email" name="email" aria-label="email" aria-describedby="basic-addon1">
+                            </div>
+                            
+                            <textarea class="form-control" cols="132" id="message" name="message">{{ single_guest.message }}</textarea><br/>
+                            <button class="btn btn-dark" type="submit">Popravi!</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <a href="/" class="row"><br />
+                        << Nazaj</a>
+                    </div>
+            </div>
+        </div>
+
+{% endblock specifika %}
