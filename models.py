@@ -1,5 +1,6 @@
 from google.appengine.ext import ndb
 
+
 class Guests(ndb.Model):
     name = ndb.StringProperty()
     surname = ndb.StringProperty()

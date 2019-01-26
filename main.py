@@ -3,30 +3,33 @@
 
 # encoding=utf8
 import sys
-
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 import os
 import jinja2
 import webapp2
 from models import Guests
-
 from HTMLParser import HTMLParser
+
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 
 class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
         self.fed = []
+
     def handle_data(self, d):
         self.fed.append(d)
+
     def get_data(self):
         return ''.join(self.fed)
+
 
 def strip_tags(html):
     s = MLStripper()
     s.feed(html)
     return s.get_data()
+
 
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), autoescape=False)
@@ -144,9 +147,11 @@ class DeleteMessageHandler(BaseHandler):
 
         return self.render_template("conformation.html", params=params)
 
+
 class ConformationHandler(BaseHandler):
     def get(self):
         return self.render_template("conformation.html")
+
 
 app = webapp2.WSGIApplication([
     webapp2.Route('/list', MainHandler),

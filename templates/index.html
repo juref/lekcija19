@@ -3,52 +3,58 @@
 {% block title %}Filton{% endblock title %}
 
 {% block specifika %}
+
+<div class="container">
     <div class="container">
-        <div class="container">
-            <div class="row">
-                {% if notice %}
-                    <div class="notice {{ classConfirm }}">{{ notice }}</div>
-                {% endif %}
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="row mb-3 center">
-                        <p>Vpiši svoje podatke in sporočilo!
-                        </p>
-                    </div>
-                        <form method="post">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Ime</span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Ime" id="name" name="name" aria-label="ime" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Priimek</span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Priimek" id="surname" name="surname" aria-label="surname" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">@</span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="email" id="email" name="email" aria-label="email" aria-describedby="basic-addon1">
-                            </div>
-                            
-                            <textarea class="form-control {{ class }}" cols="132" placeholder="Type your message here" id="message" name="message"></textarea><br/>
-                            <button class="btn btn-dark" type="submit">Vnesi</button>
-                        </form>
-                    </div>
+        <div class="row">
+
+            {% if notice %}
+
+            <div class="notice {{ classConfirm }}">{{ notice }}</div>
+
+            {% endif %}
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="row mb-3 center">
+                    <p>
+                        Vpiši svoje podatke in sporočilo!
+                    </p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <a href="/" class="row"><br />
-                        << Nazaj</a>
-                </div> 
+                <form method="post">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Ime</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Ime" id="name" name="name" aria-label="ime" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Priimek</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Priimek" id="surname" name="surname" aria-label="surname" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="email" id="email" name="email" aria-label="email" aria-describedby="basic-addon1">
+                    </div>
+
+                    <textarea class="form-control {{ class }}" cols="132" placeholder="Type your message here" id="message" name="message"></textarea><br />
+                    <button class="btn btn-dark" type="submit">Vnesi</button>
+                </form>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <a href="/" class="row"><br />
+                << Nazaj</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock specifika %}
