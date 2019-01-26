@@ -1,11 +1,32 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# encoding=utf8
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 import os
 import jinja2
 import webapp2
 from models import Guests
+
+from HTMLParser import HTMLParser
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.fed = []
+    def handle_data(self, d):
+        self.fed.append(d)
+    def get_data(self):
+        return ''.join(self.fed)
+
+def strip_tags(html):
+    s = MLStripper()
+    s.feed(html)
+    return s.get_data()
 
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), autoescape=False)
@@ -38,19 +59,19 @@ class MainHandler(BaseHandler):
         name = self.request.get("name")
         surname = self.request.get("surname")
         email = self.request.get("email")
-        message = self.request.get("message")
+        message = strip_tags(self.request.get("message"))
 
         if not name:
             name = "neznanec"
         if not surname:
             surname = "neznanec"
         if not message:
-            params = {"notice": "Sporocilo je obvezno!", "class": "warning"}
+            params = {"notice": "Sporočilo je obvezno!", "class": "warning"}
         else:
             guests = Guests(name=name, surname=surname, email=email, message=message)
             guests.put()
 
-            params = {"notice": "Uspesno ste vnesli sporocilo", "classConfirm": "confirm"}
+            params = {"notice": "Uspešno ste vnesli sporočilo", "classConfirm": "confirm"}
 
         return self.render_template("conformation.html", params=params)
 
@@ -76,7 +97,7 @@ class MessageHandler(BaseHandler):
         name = self.request.get("name")
         surname = self.request.get("surname")
         email = self.request.get("email")
-        message = self.request.get("message")
+        message = strip_tags(self.request.get("message"))
 
         single_guest = Guests.get_by_id(int(guest_id))
 
@@ -90,7 +111,7 @@ class MessageHandler(BaseHandler):
         if not single_guest.surname:
             single_guest.surname = "neznanec"
         if not single_guest.message:
-            params = {"notice": "Sporocilo je obvezno!", "class": "warning"}
+            params = {"notice": "Sporočilo je obvezno!", "class": "warning"}
         else:
             single_guest.put()
             params = {"notice": "Zapis je bil popravljen!",  "classConfirm": "confirm"}
@@ -117,7 +138,7 @@ class DeleteMessageHandler(BaseHandler):
         single_guest = Guests.get_by_id(int(guest_id))
         single_guest.key.delete()
 
-        params = {"notice": "Sporocilo je izbrisano!", "class": "warning"}
+        params = {"notice": "Sporočilo je izbrisano!", "class": "warning"}
 
         return self.render_template("conformation.html", params=params)
 
