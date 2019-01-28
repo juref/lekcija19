@@ -1,52 +1,73 @@
 {% extends "base.html" %}
 
-{% block title %}Seznam gostov{% endblock title %}
+{% block title %}Filton{% endblock title %}
 
 {% block specifika %}
 
 <div class="container">
     <div class="container">
         <div class="row">
+
+            {% if notice %}
+
+            <div class="notice {{ classConfirm }}">{{ notice }}</div>
+
+            {% endif %}
+
+        </div>
+        <div class="row">
             <div class="col-12">
-
-                <div class="row" id="guest-list">
-                    <h2>Seznam gostov:</h2>
+                <div class="row mb-3 center">
+                    <p>
+                        Vpiši svoje podatke in sporočilo!
+                    </p>
                 </div>
 
-                <div class="row">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Ime</th>
-                                <th scope="col">Priimek</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Datum vnosa</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-
-                            </tr>
-                        </thead>
-
-                        {% for guest in list %}
-
-                        <tbody>
-                            <tr>
-
-                                <td>{{ guest.name }}</td>
-                                <td>{{ guest.surname }}</td>
-                                <td>{{ guest.email }}</td>
-                                <td>{{ guest.createDate.strftime("%d. %m. %Y ob %H:%M") }}</td>
-                                <td><a href="/read/{{ guest.key.id() }}">Poglej sporočilo</a></td>
-                                <td><a href="/message/{{ guest.key.id() }}">uredi</a></td>
-                                <td><a href="/delete/{{ guest.key.id() }}">izbriši</a></td>
-                            </tr>
-                        </tbody>
-
-                        {% endfor %}
-
-                    </table>
-                </div>
+                <form method="post">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Ime</span>
+                        </div>
+                        {% if name %}
+                            <input type="text" class="form-control" value="{{ name }}" placeholder="Ime" id="name" name="name" aria-label="ime" aria-describedby="basic-addon1">
+                        {% else %}
+                            <input type="text" class="form-control" placeholder="Ime" id="name" name="name" aria-label="ime" aria-describedby="basic-addon1">
+                        {% endif %}
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Priimek</span>
+                        </div>
+                        {% if surname %}
+                            <input type="text" class="form-control" value="{{ surname }}" placeholder="Priimek" id="surname" name="surname" aria-label="surname" aria-describedby="basic-addon1">
+                        {% else %}
+                            <input type="text" class="form-control" placeholder="Priimek" id="surname" name="surname" aria-label="surname" aria-describedby="basic-addon1">
+                        {% endif %}
+                    </div>            
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                        </div>
+                        {% if surname %}
+                            <input type="text" class="form-control" value="{{ email }}" placeholder="email" id="email" name="email" aria-label="email" aria-describedby="basic-addon1">
+                        {% else %}
+                            <input type="text" class="form-control" placeholder="email" id="email" name="email" aria-label="email" aria-describedby="basic-addon1">
+                        {% endif %}
+                    </div>
+                    {% if message %}
+                        <textarea class="form-control {{ class }}" cols="132" placeholder="Type your message here" id="message" name="message">{{ message }}</textarea><br />
+                    {% else %}
+                        <textarea class="form-control {{ class }}" cols="132" placeholder="Type your message here" id="message" name="message"></textarea><br />
+                    {% endif %}
+                    <button class="btn btn-dark" type="submit">Vnesi</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <a href="/" class="row"><br />
+                << Nazaj</a>
             </div>
         </div>
     </div>

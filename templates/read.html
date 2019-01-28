@@ -22,10 +22,16 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <a href="/" class="row"><br />
-                            << Nazaj</a>
-                        </div>
+                        <a href="/message/{{ single_guest.key.id() }}" class="btn btn-dark">uredi</a> 
+                        <a href="/delete/{{ single_guest.key.id() }}" class="btn btn-dark">izbriši</a>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <br /><button class="btn btn-dark" onclick="goBack()">
+                            << Nazaj 
+                        </button> 
+                    </div> 
                 </div>
             </div>
         </div>

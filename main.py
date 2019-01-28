@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 
 # encoding=utf8
+
 import sys
 import os
+import time
+
 import jinja2
 import webapp2
 from models import Guests
@@ -54,9 +57,9 @@ class BaseHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(params))
 
 
-class MainHandler(BaseHandler):
+class GuestsListHandler(BaseHandler):
     def get(self):
-        return self.render_template("index.html")
+        return self.render_template("list.html")
 
     def post(self):
         name = self.request.get("name")
@@ -69,31 +72,38 @@ class MainHandler(BaseHandler):
         if not surname:
             surname = "neznanec"
         if not message:
-            params = {"notice": "Sporočilo je obvezno!", "class": "warning"}
+            params = {"notice": "Sporočilo je obvezno!", "class": "warning", "name": name, "surname": surname, "email": email}
+
+            return self.render_template("list.html", params=params)
+
         else:
             guests = Guests(name=name, surname=surname, email=email, message=message)
             guests.put()
 
-            params = {"notice": "Uspešno ste vnesli sporočilo", "classConfirm": "confirm"}
+            time.sleep(1)
 
-            return self.render_template("conformation.html", params=params)
+            list = Guests.query().fetch()
+
+            params = {"list": list, "notice": "Uspešno ste vnesli sporočilo", "classConfirm": "confirm"}
+
+            return self.render_template("index.html", params=params)
 
         return self.render_template("index.html", params=params)
 
 
-class GuestsListHandler(BaseHandler):
+class MainHandler(BaseHandler):
     def get(self):
         list = Guests.query().fetch()
 
         params = {"list": list}
 
-        return self.render_template("list.html", params=params)
+        self.html = "index.html"
+        return self.render_template("%s" % self.html, params=params)
 
 
 class MessageHandler(BaseHandler):
     def get(self, guest_id):
         single_guest = Guests.get_by_id(int(guest_id))
-
         params = {"single_guest": single_guest}
 
         return self.render_template("message.html", params=params)
@@ -105,6 +115,7 @@ class MessageHandler(BaseHandler):
         message = strip_tags(self.request.get("message"))
 
         single_guest = Guests.get_by_id(int(guest_id))
+        old_message = single_guest.message
 
         single_guest.name = name
         single_guest.surname = surname
@@ -116,12 +127,23 @@ class MessageHandler(BaseHandler):
         if not single_guest.surname:
             single_guest.surname = "neznanec"
         if not single_guest.message:
-            params = {"notice": "Sporočilo je obvezno!", "class": "warning"}
+
+            list = Guests.query().fetch()
+
+            params = {"list": list, "notice": "Sporočilo je obvezno!", "class": "warning", "name": name, "surname": surname, "email": email, "message":old_message}
+
+            return self.render_template("list.html", params=params)
+
         else:
             single_guest.put()
-            params = {"notice": "Zapis je bil popravljen!",  "classConfirm": "confirm"}
 
-        return self.render_template("conformation.html", params=params)
+            time.sleep(1)
+
+            list = Guests.query().fetch()
+
+            params = {"list": list, "notice": "Zapis je bil popravljen!",  "classConfirm": "confirm"}
+
+        return self.render_template("index.html", params=params)
 
 
 class ReadHandler(BaseHandler):
@@ -143,21 +165,19 @@ class DeleteMessageHandler(BaseHandler):
         single_guest = Guests.get_by_id(int(guest_id))
         single_guest.key.delete()
 
-        params = {"notice": "Sporočilo je izbrisano!", "class": "warning"}
+        time.sleep(1)
 
-        return self.render_template("conformation.html", params=params)
+        list = Guests.query().fetch()
 
+        params = {"list": list, "notice": "Sporočilo je izbrisano!", "class": "warning"}
 
-class ConformationHandler(BaseHandler):
-    def get(self):
-        return self.render_template("conformation.html")
+        return self.render_template("index.html", params=params)
 
 
 app = webapp2.WSGIApplication([
-    webapp2.Route('/list', MainHandler),
-    webapp2.Route('/', GuestsListHandler),
+    webapp2.Route('/', MainHandler),
+    webapp2.Route('/list', GuestsListHandler),
     webapp2.Route('/message/<guest_id:\d+>', MessageHandler),
     webapp2.Route('/read/<guest_id:\d+>', ReadHandler),
     webapp2.Route('/delete/<guest_id:\d+>', DeleteMessageHandler),
-    webapp2.Route('/confirm', ConformationHandler),
 ], debug=True)

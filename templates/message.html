@@ -33,13 +33,14 @@
                         <input type="text" class="form-control" value="{{ single_guest.email }}" id="email" name="email" aria-label="email" aria-describedby="basic-addon1">
                     </div>
                     <textarea class="form-control" cols="132" id="message" name="message">{{ single_guest.message }}</textarea><br />
-                    <button class="btn btn-dark" type="submit">Popravi!</button>
+                        
+                    <button class="btn btn-dark" type="submit">Popravi!</button> <a href="/delete/{{ single_guest.key.id() }}" class="btn btn-dark">izbriši</a>
                 </form>
-            </div>
-        </div>
-        <div class="col-12">
-            <a href="/" class="row"><br />
-                << Nazaj</a>
+                <div class="row">
+                    <div class="col-12">
+                        <br /><button class="btn btn-dark" onclick="goBack()"><< Nazaj </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

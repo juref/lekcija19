@@ -66,6 +66,8 @@ html {
 .notice {
     color: red;
     font-weight: 700;
+    font-size: 2em;
+    margin: auto;
 }
 
 .confirm {
